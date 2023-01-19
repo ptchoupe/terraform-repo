@@ -1,20 +1,38 @@
 pipeline {
     agent any
-
+    triggers {
+  pollSCM('* * * * *')
+    }
     stages {
         stage('Hello') {
             steps {
-                echo 'Hello World'
+                echo 'Hello '
+                sleep 5
             }
         }
-         stage('test') {
+          stage('build') {
             steps {
-                echo 'Hello test'
+                echo 'build'
+                sleep 5
             }
         }
-         stage('build') {
+          stage('test') {
             steps {
-                echo 'Hello build'
+                echo 'test'
+                sleep 5
+            }
+        }
+          stage('deploy') {
+            steps {
+                echo 'deploy'
+                sleep 4
+            }
+        }
+        stage('create a zip file') {
+            steps {
+                sh 'zip terraformrepo-${BUILD_NUMBER}.zip *  --exclude Jenkinsfile'
+                echo 'done'
+                sleep 4
             }
         }
     }
